@@ -24,7 +24,7 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 实例化模型
-model_name = 'Vgg_A'
+model_name = 'GoogleNet'
 if model_name == 'AlexNet':
     model = AlexNet(num_classes=10).to(device)
 elif model_name == 'Vgg_A':
@@ -39,6 +39,8 @@ elif model_name == 'Vgg_D':
     model = Vgg(cfg_vgg='D', num_classes=10).to(device)
 elif model_name == 'Vgg_E':
     model = Vgg(cfg_vgg='E', num_classes=10).to(device)
+elif model_name == 'GoogleNet':
+    model = GoogleNet(num_classes=10).to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
