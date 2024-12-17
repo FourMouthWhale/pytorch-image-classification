@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
-from models import AlexNet
+from models import *
 import matplotlib.pyplot as plt
 
 import ssl
@@ -24,7 +24,22 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 实例化模型
-model = AlexNet(num_classes=10).to(device)
+model_name = 'Vgg_A'
+if model_name == 'AlexNet':
+    model = AlexNet(num_classes=10).to(device)
+elif model_name == 'Vgg_A':
+    model = Vgg(cfg_vgg='A', num_classes=10).to(device)
+elif model_name == 'Vgg_A-LRN':
+    model = Vgg(cfg_vgg='A-LRN', num_classes=10).to(device)
+elif model_name == 'Vgg_B':
+    model = Vgg(cfg_vgg='B', num_classes=10).to(device)
+elif model_name == 'Vgg_C':
+    model = Vgg(cfg_vgg='C', num_classes=10).to(device)
+elif model_name == 'Vgg_D':
+    model = Vgg(cfg_vgg='D', num_classes=10).to(device)
+elif model_name == 'Vgg_E':
+    model = Vgg(cfg_vgg='E', num_classes=10).to(device)
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -64,14 +79,15 @@ if __name__ == "__main__":
         acc_history.append(train_acc)
         # 保存模型权重，每5轮次保存到weights文件夹下
         if (epoch + 1) % 5 == 0:
-            torch.save(model.state_dict(), f'weights/alexnet_epoch_{epoch + 1}.pth')
+            torch.save(model.state_dict(), f'weights/{model_name}_epoch_{epoch + 1}.pth')
+    
     # 绘制损失曲线
     plt.plot(range(1, epochs+1), loss_history, label='Loss', marker='o')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training Loss Curve')
     plt.legend()
-    plt.savefig('results\\train_loss_curve.png')
+    plt.savefig(f'results\\{model_name}_train_loss_curve.png')
     plt.close()
 
     # 绘制准确率曲线
@@ -80,5 +96,5 @@ if __name__ == "__main__":
     plt.ylabel('Accuracy (%)')
     plt.title('Training Accuracy Curve')
     plt.legend()
-    plt.savefig('results\\train_acc_curve.png')
+    plt.savefig(f'results\\{model_name}_train_acc_curve.png')
     plt.close()
