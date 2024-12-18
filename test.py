@@ -21,7 +21,7 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=128,
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 实例化模型
-model_name = 'GoogleNet'
+model_name = 'ResNet18'
 if model_name == 'AlexNet':
     model = AlexNet(num_classes=10).to(device)
 elif model_name == 'Vgg_A':
@@ -38,6 +38,16 @@ elif model_name == 'Vgg_E':
     model = Vgg(cfg_vgg='E', num_classes=10).to(device)
 elif model_name == 'GoogleNet':
     model = GoogleNet(num_classes=10).to(device)
+elif model_name == 'ResNet18':
+    model = ResNet18(num_classes=10).to(device)
+elif model_name == 'ResNet34':
+    model = ResNet34(num_classes=10).to(device)
+elif model_name == 'ResNet50':
+    model = ResNet50(num_classes=10).to(device)
+elif model_name == 'ResNet101':
+    model = ResNet101(num_classes=10).to(device)
+elif model_name == 'ResNet152':
+    model = ResNet152(num_classes=10).to(device)
 
 criterion = nn.CrossEntropyLoss()
 
